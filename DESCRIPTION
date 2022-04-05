@@ -1,15 +1,15 @@
 Package: voterank
 Type: Package
-Title: Voterank algorithm for finding influential spreaders in networks.
+Title: Voterank algorithm for identifi influential spreaders in networks.
 Version: 0.1.0
 Author: ŽIGO, Viliam
 Maintainer: ŽIGO, Viliam <vilo.zigo@gmail.com>
-Description: Voterank algorithm for finding influential spreaders in networks.
+Description: Voterank algorithm for identifying a set of influential spreaders in complex networks.
 License: MIT
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/tidyverse/forcats
-BugReports: https://github.com/tidyverse/forcats/issues
+URL: https://github.com/viliamzigo/voterank
+BugReports: https://github.com/viliamzigo/voterank/issues
 Imports: 
     igraph
 VignetteBuilder: 
