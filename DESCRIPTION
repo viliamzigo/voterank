@@ -1,6 +1,6 @@
 Package: voterank
 Type: Package
-Title: Voterank algorithm for identifi influential spreaders in networks.
+Title: VoteRank algorithm for identifying a set of influential spreaders in complex networks.
 Version: 1.0.0
 Author: ŽIGO, Viliam
 Maintainer: ŽIGO, Viliam <vilo.zigo@gmail.com>
