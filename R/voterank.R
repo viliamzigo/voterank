@@ -18,8 +18,8 @@
 #'             influential spreaders in complex networks. Sci Rep 6, 27823
 #'             (2016). \url{https://doi.org/10.1038/srep27823}
 #'             (\url{https://www.nature.com/articles/srep27823.pdf})
-voterank <- function(g, r) {
-  if (r <= 0) {S
+voterank <- function(g, r, display = F, display_layout = layout_nicely(g)) {
+  if (r <= 0) {
     stop("Number of spreaders must be positive integer.")
   }
 
@@ -56,6 +56,18 @@ voterank <- function(g, r) {
     spreader_neighbours_indeces <- as.numeric(neighbours_of_spreader)
     voting_ability[spreader_neighbours_indeces] <- 1 / mean(igraph::degree(g))
     voting_ability[spreaders] <- 0
+  }
+
+  if (display) {
+    print(igraph::V(g)[spreaders])
+    print(igraph::V(g))
+    plot(g,
+         vertex.size = 5,
+         layout = display_layout,
+         vertex.color = ifelse(igraph::V(g) %in% igraph::V(g)[spreaders], 'red', NA),
+         vertex.label = NA,
+         main = 'VoteRank'
+    )
   }
 
   return(igraph::V(g)[spreaders])

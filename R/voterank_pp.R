@@ -20,8 +20,8 @@
 #'             Solitons & Fractals 152. 2021.
 #'             \url{https://doi.org/10.1016/j.chaos.2021.111309}
 #'             (\url{https://www.sciencedirect.com/science/article/pii/S0960077921006639})
-voterank_pp <- function(g, r, lambda) {
-  if (r <= 0) {S
+voterank_pp <- function(g, r, lambda, display = F, display_layout = layout_nicely(g)) {
+  if (r <= 0) {
     stop("Number of spreaders must be positive integer.")
   }
 
@@ -46,8 +46,18 @@ voterank_pp <- function(g, r, lambda) {
     for (ith_node in seq_len(graph_order)) {
       neighbours_of_ith_node <- igraph::neighbors(g, ith_node, mode = "out")
       neighbours_indeces <- as.numeric(neighbours_of_ith_node)
-      scores[ith_node] <- ifelse(ith_node %in% spreaders, -1,
-                                 sum(voting_ability[neighbours_indeces]))
+
+      score <- 0
+      for (ith_neighbour in seq_along(neighbours_indeces)) {
+        ith_neighbour_neghbours <- igraph::neighbors(g, ith_neighbour, mode = "out")
+        vp_neighbour <- igraph::degree(g, ith_node) / sum(
+          igraph::degree(g, ith_neighbour_neghbours))
+        va_neighbour <- voting_ability[neighbours_indeces[ith_neighbour]]
+        score <- score + vp_neighbour * va_neighbour
+      }
+
+      score <- sqrt(length(neighbours_indeces) * score)
+      scores[ith_node] <- ifelse(ith_node %in% spreaders, -1, score)
     }
 
     # Identify spreader
@@ -68,6 +78,17 @@ voterank_pp <- function(g, r, lambda) {
         sqrt(lambda) * voting_ability[just_second_order_neighbours_indeces]
     }
     voting_ability[spreaders] <- 0
+  }
+
+
+  if (display) {
+    plot(g,
+         vertex.size = 5,
+         layout = display_layout,
+         vertex.color = ifelse(igraph::V(g) %in% igraph::V(g)[spreaders], 'red', NA),
+         vertex.label = NA,
+         main = paste('VoteRank++ with suppressing factor: ', lambda)
+    )
   }
 
   return(igraph::V(g)[spreaders])
