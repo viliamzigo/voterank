@@ -9,7 +9,6 @@
 #' @param prob Probability of infecting neighbour.
 #' @param layout Custom layout, default is layout_nicely.
 #' @param plot_iter Boolean argument, default FALSE. If TRUE plot every iteration of spreading.
-#' @param seed Seed, default is 83 for no reason.
 #' @return Number of iterations to infect all nodes.
 #' @examples
 #' library(igraphdata)
@@ -17,7 +16,7 @@
 #' data(karate)
 #' spreaders <- voterank(karate, 2)
 #' si_simulation(karate, spreaders, prob = 0.5)
-si_simulation <- function(g, spreaders, prob, layout = layout_nicely(g), plot_iter = F, seed = 83) {
+si_simulation <- function(g, spreaders, prob, layout = layout_nicely(g), plot_iter = F) {
   iterations <- 0
   if(plot_iter) {
     plot(g,
@@ -31,32 +30,28 @@ si_simulation <- function(g, spreaders, prob, layout = layout_nicely(g), plot_it
   }
 
   while(length(V(g)) > length(spreaders)) {
-    infected <- c()
-    for (spreader in spreaders) {
-      if (runif(1) <= prob) {
-        spreader_neighbors <- neighbors(g, V(g)[V(g)$name == spreader])
-        susceptible <- spreader_neighbors[
-          !(spreader_neighbor$name %in% spreaders) &
-            !(spreader_neighbor$name %in% infected)]
+    if (runif(1) <= prob) {
+      spreader <- sample(spreaders, 1)
+      spreader_neighbors <- neighbors(g, V(g)[V(g)$name == spreader])$name
+      susceptible <- spreader_neighbors[which(!(spreader_neighbors %in% spreaders))]
 
-        set.seed(seed)
-        infected <- c(infected, sample(susceptible), 1)$name)
+      if (length(susceptible) == 0) next;
+      infected <- sample(susceptible, 1)
+      spreaders <- c(spreaders, infected)
+
+      if(plot_iter) {
+        plot(g,
+             vertex.size = 5,
+             layout = layout,
+             vertex.color = ifelse(V(g)$name %in% spreaders, 'red', NA),
+             vertex.label = NA,
+             main = paste('SI iteration: ', iterations)
+        )
+        readline(prompt="Press [enter] to continue")
       }
     }
 
-    spreaders <- c(spreaders, infected)
     iterations <- iterations + 1
-
-    if(plot_iter) {
-      plot(g,
-           vertex.size = 5,
-           layout = layout,
-           vertex.color = ifelse(V(g)$name %in% spreaders, 'red', NA),
-           vertex.label = NA,
-           main = paste('SI iteration: ', iterations)
-      )
-      readline(prompt="Press [enter] to continue")
-    }
   }
 
   return(iterations)

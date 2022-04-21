@@ -4,6 +4,9 @@
 #'
 #' @param g Graph object.
 #' @param r Number of spreaders.
+#' @param display Whether to display graph, default FALSE.
+#' @param display_layout Custom layout of graph, dafault layout_nicely.
+#' @param display_label Whether to display vertex.label, default TRUE.
 #' @return Vector of \code{r} vertices identified as spreaders.
 #' @examples
 #' library(igraphdata)
@@ -18,7 +21,7 @@
 #'             influential spreaders in complex networks. Sci Rep 6, 27823
 #'             (2016). \url{https://doi.org/10.1038/srep27823}
 #'             (\url{https://www.nature.com/articles/srep27823.pdf})
-voterank <- function(g, r, display = F, display_layout = layout_nicely(g)) {
+voterank <- function(g, r, display = F, display_layout = layout_nicely(g), display_label = T) {
   if (r <= 0) {
     stop("Number of spreaders must be positive integer.")
   }
@@ -59,13 +62,14 @@ voterank <- function(g, r, display = F, display_layout = layout_nicely(g)) {
   }
 
   if (display) {
-    print(igraph::V(g)[spreaders])
-    print(igraph::V(g))
     plot(g,
          vertex.size = 5,
          layout = display_layout,
          vertex.color = ifelse(igraph::V(g) %in% igraph::V(g)[spreaders], 'red', NA),
-         vertex.label = NA,
+         vertex.label = if(display_label) igraph::V(g)$name else NA,
+         vertex.label.dist = 1,
+         vertex.label.font = 2,
+         edge.width = 2,
          main = 'VoteRank'
     )
   }

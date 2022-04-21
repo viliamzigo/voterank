@@ -5,6 +5,9 @@
 #' @param g Graph object.
 #' @param r Number of spreaders.
 #' @param lambda Suppressing factor, where is from interval [0, 1]
+#' @param display Whether to display graph, default FALSE.
+#' @param display_layout Custom layout of graph, dafault layout_nicely.
+#' @param display_label Whether to display vertex.label, default TRUE.
 #' @return Vector of \code{r} vertices identified as spreaders.
 #' @examples
 #' library(igraphdata)
@@ -20,7 +23,7 @@
 #'             Solitons & Fractals 152. 2021.
 #'             \url{https://doi.org/10.1016/j.chaos.2021.111309}
 #'             (\url{https://www.sciencedirect.com/science/article/pii/S0960077921006639})
-voterank_pp <- function(g, r, lambda, display = F, display_layout = layout_nicely(g)) {
+voterank_pp <- function(g, r, lambda, display = F, display_layout = layout_nicely(g), display_label = T) {
   if (r <= 0) {
     stop("Number of spreaders must be positive integer.")
   }
@@ -86,7 +89,10 @@ voterank_pp <- function(g, r, lambda, display = F, display_layout = layout_nicel
          vertex.size = 5,
          layout = display_layout,
          vertex.color = ifelse(igraph::V(g) %in% igraph::V(g)[spreaders], 'red', NA),
-         vertex.label = NA,
+         vertex.label = if(display_label) igraph::V(g)$name else NA,
+         vertex.label.dist = 1,
+         vertex.label.font = 2,
+         edge.width = 2,
          main = paste('VoteRank++ with suppressing factor: ', lambda)
     )
   }

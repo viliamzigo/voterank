@@ -9,6 +9,22 @@ install.packages("devtools")
 devtools::install_github("viliamzigo/voterank")
 ```
 
+## Exercise
+
+```r
+library(igraphdata)
+data(karate)
+
+voterank(karate, 2, display = T)
+```
+
+```r
+g = read.graph(
+file="http://users.dimi.uniud.it/~massimo.franceschet/teaching/datascience/network/R/dolphin.gml", format="gml")
+
+voterank(g, 5, display = T, display_label = F)
+```
+
 ## References
 
 Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. https://igraph.org

@@ -4,14 +4,27 @@
 \alias{voterank_pp}
 \title{VoteRank++}
 \usage{
-voterank_pp(g, r, lambda)
+voterank_pp(
+  g,
+  r,
+  lambda,
+  display = F,
+  display_layout = layout_nicely(g),
+  display_label = T
+)
 }
 \arguments{
 \item{g}{Graph object.}
 
 \item{r}{Number of spreaders.}
 
-\item{lambda}{Suppressing factor, where \lambda \in [0, 1]}
+\item{lambda}{Suppressing factor, where is from interval [0, 1]}
+
+\item{display}{Whether to display graph, default FALSE.}
+
+\item{display_layout}{Custom layout of graph, dafault layout_nicely.}
+
+\item{display_label}{Whether to display vertex.label, default TRUE.}
 }
 \value{
 Vector of \code{r} vertices identified as spreaders.
@@ -24,7 +37,7 @@ VoteRank++ algorithm for identifying a set of influential
 library(igraphdata)
 
 data(karate)
-voterank(karate, 2)
+voterank_pp(karate, 2, 0.8)
 
 }
 \references{

@@ -4,12 +4,24 @@
 \alias{voterank}
 \title{VoteRank}
 \usage{
-voterank(g, r)
+voterank(
+  g,
+  r,
+  display = F,
+  display_layout = layout_nicely(g),
+  display_label = T
+)
 }
 \arguments{
 \item{g}{Graph object.}
 
 \item{r}{Number of spreaders.}
+
+\item{display}{Whether to display graph, default FALSE.}
+
+\item{display_layout}{Custom layout of graph, dafault layout_nicely.}
+
+\item{display_label}{Whether to display vertex.label, default TRUE.}
 }
 \value{
 Vector of \code{r} vertices identified as spreaders.
