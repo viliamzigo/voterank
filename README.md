@@ -9,20 +9,26 @@ install.packages("devtools")
 devtools::install_github("viliamzigo/voterank")
 ```
 
-## Exercise
+## Exercises
+
+Exercise 1:
 
 ```r
 library(igraphdata)
 data(karate)
 
-voterank(karate, 2, display = T)
+# Find 2 most influential people in karate network using `voterank` and `voterank_pp`.
+
 ```
+
+Exercise 2:
 
 ```r
 g = read.graph(
 file="http://users.dimi.uniud.it/~massimo.franceschet/teaching/datascience/network/R/dolphin.gml", format="gml")
 
-voterank(g, 5, display = T, display_label = F)
+# Find 5 most influential dolphins in dolphin network using `voterank` and `voterank_pp`.
+
 ```
 
 ## References
