@@ -7,6 +7,8 @@ Voterank algorithm for identifying a set of influential spreaders in complex net
 ```r
 install.packages("devtools")
 devtools::install_github("viliamzigo/voterank")
+library(voterank)
+?voterank
 ```
 
 ## Exercises
